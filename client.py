@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -15,10 +16,15 @@ def client_receive():
     while True:
         try:
             message = client.recv(1024).decode("utf-8")
-            if "/ClientName" in message:
+            if "/ClientName:" in message:
                 global alias
                 alias = message.split(" ")[-1]
-            print(message)
+            elif message[-3:] == "ACK":
+                print(f"{message} \u2713")  # prints a check mark to acknowledge
+            elif alias in message.split(" ")[0]:
+                pass
+            else:
+                print(message)
         except:
             print("An error occurred!\n")
             client.close()
@@ -27,7 +33,8 @@ def client_receive():
 
 def client_send():
     while True:
-        message = input("")
+        time.sleep(1)
+        message = input(f">{alias}:")
         client.send(message.encode("utf-8"))
 
 
