@@ -47,7 +47,7 @@ def handleClient(client):
                 cache[datetime.now()] = f"{aliases[clients.index(client)]}: {message}"
                 ackmsg = f"Server> {message}ACK"
                 client.send(ackmsg.encode("utf-8"))
-                time.sleep(1)
+                time.sleep(0.5)
                 broadcast(f"{aliases[clients.index(client)]}: {message}")
         except:
 
